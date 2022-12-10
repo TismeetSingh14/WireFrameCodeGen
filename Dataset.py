@@ -33,7 +33,7 @@ class Dataset():
         X, y, image_data_filenames = [], [], []
         for img_no, seq in enumerate(self.train_sequences):
             in_seq, out_seq = seq[:-1], seq[1:]
-            out_seq.to_categorical(out_seq, num_classes = self.vocab_size)
+            out_seq = to_categorical(out_seq, num_classes = self.vocab_size)
             image_data_filenames.append(self.image_filenames[img_no])
             X.append(in_seq)
             y.append(out_seq)

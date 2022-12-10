@@ -2,15 +2,15 @@ from Model import *
 from Dataset import *
 from Config import *
 from nltk.translate.bleu_score import sentence_bleu
-from inference.Compiler import *
 
 dataset_init = Dataset(dir_name)
 encoder = EncoderCNN(embed_size)
 decoder = DecoderRNN(embed_size, hidden_size, dataset_init.vocab_size, num_layers)
 criterion = nn.MSELoss()
 params = list(decoder.parameters()) + list(encoder.linear.parameters())
+print(params)
 optimizer = torch.optim.Adam(params, lr = 0.001)
-
+print("Training Started")
 for e in range(num_epochs):
     for i_batch in range(len(dataset_init.X)):
         hidden = decoder.init_hidden()
