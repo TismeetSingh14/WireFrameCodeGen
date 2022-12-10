@@ -7,7 +7,7 @@ dataset_init = Dataset(dir_name)
 encoder = EncoderCNN(embed_size)
 decoder = DecoderRNN(embed_size, hidden_size, dataset_init.vocab_size, num_layers)
 criterion = nn.MSELoss()
-params = list(decoder.parameters()) + list(encoder.linear.parameters())
+params = list(decoder.parameters()) + list(encoder.linear.parameters()) + list(encoder.bn.parameters())
 print(params)
 optimizer = torch.optim.Adam(params, lr = 0.001)
 print("Training Started")
@@ -28,9 +28,9 @@ for e in range(num_epochs):
         loss.backward()
         optimizer.step()
     
-    print('Epoch [%d/%d], Loss: %.4f'%(e+1, num_epochs, loss.data[0])) 
-    torch.save(encoder,'EncoderWeights'+str(loss.data[0])+'.pt')
-    torch.save(decoder,'DecoderWeights'+str(loss.data[0])+'.pt')
+    print('Epoch [%d/%d], Loss: %.4f'%(e+1, num_epochs, loss.data)) 
+    torch.save(encoder,'EncoderWeights'+str(loss.data)+'.pt')
+    torch.save(decoder,'DecoderWeights'+str(loss.data)+'.pt')
 
 decoded_words = []
 start_text = ' '
